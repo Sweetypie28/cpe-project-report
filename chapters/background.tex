@@ -2,127 +2,163 @@
 
 \hspace{1.5em}บทนี้นำเสนอหลักการ แนวคิด และทฤษฎีที่เกี่ยวข้องกับการออกแบบและพัฒนาเกมในโครงงาน \\โดยมุ่งเน้นการอธิบายพื้นฐานทางด้านวิศวกรรมคอมพิวเตอร์และการออกแบบเกม ที่ถูกนำมาใช้ในการพัฒนาระบบต่าง ๆ ภายในเกม
 
-\section{The first section}
-The text for Section 1 goes here.
+\section{Roguelike Game Design}
+\hspace{1.5em}Roguelike เป็นแนวเกมที่มีต้นกำเนิดจากเกม Rogue โดยมีลักษณะเด่นคือการเล่นแบบวนลูป และการสร้างประสบการณ์ที่แตกต่างในแต่ละรอบการเล่นผ่านระบบสุ่ม และความก้าวหน้าของตัวละคร [2][6]\par
+\vspace{1\baselineskip}
+ลักษณะสำคัญของเกมแนว Roguelike ได้แก่
+\begin{itemize}
+    \item \textbf{Permadeath}\newline
+    \hspace{1.5em}เมื่อผู้เล่นแพ้หรือเสียชีวิต จะต้องเริ่มต้นใหม่ตั้งแต่ต้น ซึ่งช่วยเพิ่มความท้าทายและความตึงเครียดในการเล่น
+    \item \textbf{Procedural Generation}\newline
+    \hspace{1.5em}การสร้างฉาก ศัตรู หรือเหตุการณ์แบบสุ่ม ทำให้แต่ละรอบการเล่นมีความแตกต่างกัน
+    \item \textbf{Core Gameplay Loop ที่ชัดเจน}\newline
+    \hspace{1.5em}ผู้เล่นจะทำกิจกรรมซ้ำในรูปแบบลูป เช่น การสำรวจ ต่อสู้ เก็บทรัพยากร และพัฒนาตัวละคร
+    \item \textbf{Progression System}\newline
+    \hspace{1.5em}ผู้เล่นสามารถพัฒนาความสามารถของตัวละครผ่านการเล่นซ้ำ เช่น การปลดล็อกสกิลหรือไอเทม
+\end{itemize}
 
-\section{Second section}
-Section 2 text.
+ในโครงงานนี้ แนวคิด Roguelike ถูกนำมาประยุกต์ใช้ร่วมกับระบบการทำอาหาร โดยผู้เล่นจะต้องออกล่ามอนสเตอร์เพื่อเก็บวัตถุดิบ นำมาปรุงอาหาร และใช้ผลลัพธ์จากอาหารในการพัฒนาความสามารถของ\\ตัวละคร ซึ่งสร้างเป็น Core Gameplay Loop ดังนี้
 
-\subsection{Subsection heading goes here}
-
-Subsection 1 text
-
-\subsubsection{Subsubsection 1 heading goes here}
-Subsubsection 1 text
-
-\subsubsection{Subsubsection 2 heading goes here}
-Subsubsection 2 text
-
-\section{Third section}
-Section 3 text. The dielectric constant\index{dielectric constant}
-at the air-metal interface determines
-the resonance shift\index{resonance shift} as absorption or capture occurs
-is shown in Equation~\eqref{eq:dielectric}:
-
-\begin{equation}\label{eq:dielectric}
-k_1=\frac{\omega}{c({1/\varepsilon_m + 1/\varepsilon_i})^{1/2}}=k_2=\frac{\omega
-\sin(\theta)\varepsilon_\mathit{air}^{1/2}}{c}
-\end{equation}
-
-\noindent
-where $\omega$ is the frequency of the plasmon, $c$ is the speed of
-light, $\varepsilon_m$ is the dielectric constant of the metal,
-$\varepsilon_i$ is the dielectric constant of neighboring insulator,
-and $\varepsilon_\mathit{air}$ is the dielectric constant of air.
-
-\section{About using figures in your report}
-
-% define a command that produces some filler text, the lorem ipsum.
-\newcommand{\loremipsum}{
-  \textit{Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-  minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-  aliquip ex ea commodo consequat. Duis aute irure dolor in
-  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-  culpa qui officia deserunt mollit anim id est laborum.}\par}
-
-\begin{figure}
-  \centering
-
-  \fbox{
-     \parbox{.6\textwidth}{\loremipsum}
-  }
-
-  % To include an image in the figure, say myimage.pdf, you could use
-  % the following code. Look up the documentation for the package
-  % graphicx for more information.
-  % \includegraphics[width=\textwidth]{myimage}
-
-  \caption[Sample figure]{This figure is a sample containing \gls{lorem ipsum},
-  showing you how you can include figures and glossary in your report.
-  You can specify a shorter caption that will appear in the List of Figures.}
-  \label{fig:sample-figure}
-\end{figure}
-
-Using \verb.\label. and \verb.\ref. commands allows us to refer to
-figures easily. If we can refer to Figures
-\ref{fig:walrus} and \ref{fig:sample-figure} by name in the {\LaTeX}
-source code, then we will not need to update the code that refers to it
-even if the placement or ordering of the figures changes.
-
-\loremipsum\loremipsum
-
-% This code demonstrates how to get a landscape table or figure. It
-% uses the package lscape to turn everything but the page number into
-% landscape orientation. Everything should be included within an
-% \afterpage{ .... } to avoid causing a page break too early.
-\afterpage{
-  \begin{landscape}
-  \begin{table}
-    \caption{Sample landscape table}
-    \label{tab:sample-table}
-
-    \centering
-
-    \begin{tabular}{c||c|c}
-        Year & A & B \\
-        \hline\hline
-        1989 & 12 & 23 \\
-        1990 & 4 & 9 \\
-        1991 & 3 & 6 \\
-    \end{tabular}
-  \end{table}
-  \end{landscape}
-}
-
-\loremipsum\loremipsum\loremipsum
-
-\section{Overfull hbox}
-
-When the \verb.semifinal. option is passed to the \verb.cpecmu. document class,
-any line that is longer than the line width, i.e., an overfull hbox, will be
-highlighted with a black solid rule:
 \begin{center}
-\begin{minipage}{2em}
-juxtaposition
-\end{minipage}
+  \textbf{ล่า $\rightarrow$ ได้วัตถุดิบ $\rightarrow$ ทำอาหาร $\rightarrow$ แข่งขัน $\rightarrow$ พัฒนา $\rightarrow$ วนซ้ำ}
 \end{center}
 
-\section{\ifenglish%
-\ifcpe CPE \else ISNE \fi knowledge used, applied, or integrated in this project
-\else%
-ความรู้ตามหลักสูตรซึ่งถูกนำมาใช้หรือบูรณาการในโครงงาน
-\fi
-}
+แนวทางนี้ช่วยให้ระบบการทำอาหารถูกผนวกเข้ากับกลไกหลักของเกมอย่างเป็นธรรมชาติ \\และทำให้ผู้เล่นเกิดการเรียนรู้ผ่านการเล่นซ้ำ ซึ่งสอดคล้องกับวัตถุประสงค์ของโครงงาน
 
-อธิบายถึงความรู้ และแนวทางการนำความรู้ต่างๆ ที่ได้เรียนตามหลักสูตร ซึ่งถูกนำมาใช้ในโครงงาน
+\newpage
+\section{Game Loop Design}
+\hspace{1.5em}Game Loop เป็นแนวคิดพื้นฐานในการออกแบบเกม โดยหมายถึงลำดับของกิจกรรมหลักที่ผู้เล่นจะทำซ้ำอย่างต่อเนื่องตลอดการเล่นเกม (core repetitive cycle) การออกแบบ Game Loop ที่ชัดเจนและมีความสมดุลจะช่วยให้เกมมีความน่าสนใจ และสามารถรักษาการมีส่วนร่วมของผู้เล่นได้ (player engagement)
 
-\section{\ifenglish%
-Extracurricular knowledge used, applied, or integrated in this project
-\else%
-ความรู้นอกหลักสูตรซึ่งถูกนำมาใช้หรือบูรณาการในโครงงาน
-\fi
-}
+โดยทั่วไป Game Loop จะประกอบด้วยขั้นตอนหลัก เช่น การสำรวจ (exploration) การต่อสู้ \\(combat) การเก็บทรัพยากร (resource collection) และการพัฒนาตัวละคร (progression) ซึ่งจะถูกออกแบบให้เชื่อมโยงกันเป็นวงจร [1][5]
 
-อธิบายถึงความรู้ต่างๆ ที่เรียนรู้ด้วยตนเอง และแนวทางการนำความรู้เหล่านั้นมาใช้ในโครงงาน
+ในโครงงานนี้ ได้มีการออกแบบ Core Gameplay Loop โดยผสมผสานระบบการต่อสู้และการทำอาหารเข้าด้วยกัน ดังนี้
+
+\begin{center}
+\textbf{ล่ามอนสเตอร์ $\;\rightarrow\;$ ได้วัตถุดิบ $\;\rightarrow\;$ ทำอาหาร $\;\rightarrow\;$ แข่งขัน $\;\rightarrow\;$ พัฒนาตัวละคร $\;\rightarrow\;$ วนซ้ำ}
+\end{center}
+
+การออกแบบลูปดังกล่าวทำให้ผู้เล่นมีเป้าหมายที่ชัดเจนในแต่ละรอบของการเล่น โดยการล่ามอนสเตอร์เพื่อเก็บวัตถุดิบจะเชื่อมโยงไปสู่ระบบการทำอาหาร ซึ่งผลลัพธ์จากการทำอาหารจะส่งผลต่อความสามารถ\\ของตัวละคร และนำไปสู่การแข่งขันเพื่อปลดล็อกเนื้อหาใหม่
+
+นอกจากนี้ เกมยังมีการออกแบบลูปย่อย (Secondary Loops) เช่น
+\begin{itemize}
+  \item การพัฒนาความชำนาญของเมนู (Food Mastery Loop)
+  \item การปลดล็อกสกิลจากอาหาร (Skill Progression Loop)
+  \item การดำเนินเนื้อเรื่อง (Story Progression Loop)
+\end{itemize}
+
+ลูปย่อยเหล่านี้ช่วยเพิ่มความหลากหลายของการเล่น และสนับสนุนให้ผู้เล่นกลับมาเล่นซ้ำ (replayability) ซึ่งเป็นองค์ประกอบสำคัญของเกมแนว Roguelike [2]
+
+โดยสรุป การออกแบบ Game Loop ในโครงงานนี้ช่วยเชื่อมโยงระบบต่าง ๆ ภายในเกมเข้าด้วยกันอย่างเป็นระบบ และสร้างประสบการณ์การเล่นที่ต่อเนื่องและมีความหมายต่อผู้เล่น
+
+\section{Behaviors in Games}
+\hspace{1.5em}พฤติกรรมของตัวละคร เป็นองค์ประกอบสำคัญในการออกแบบเกม โดยเฉพาะในระบบที่มีตัวละครที่\\ไม่ใช่ผู้เล่น (Non-Player Characters: NPCs) ซึ่งจำเป็นต้องมีการตัดสินใจและตอบสนองต่อสถานการณ์ต่าง ๆ ภายในเกมอย่างเหมาะสม [3]
+
+การออกแบบ Behavior ที่ดีจะช่วยให้ตัวละครมีความสมจริง และเพิ่มความท้าทายให้กับผู้เล่น
+
+ในโครงงานนี้ ได้มีการเลือกใช้รูปแบบของ Behavior ที่แตกต่างกันตามบทบาทของตัวละคร \\เพื่อให้เหมาะสมกับลักษณะการทำงานของแต่ละประเภท โดยสามารถแบ่งออกเป็น 3 รูปแบบหลัก ดังนี้ [4]
+\newpage
+\subsection{Model-Based Reflex Agent}
+\hspace{1.5em}Model-Based Reflex Agent เป็นรูปแบบที่ใช้สถานะภายใน (internal state) เพื่อช่วยในการ\\ตัดสินใจ โดยตัวละครจะสามารถจดจำข้อมูลบางอย่างของโลก เช่น ตำแหน่งล่าสุดของผู้เล่น
+
+ในเกมนี้ รูปแบบดังกล่าวถูกนำมาใช้กับมอนสเตอร์ โดยมอนสเตอร์สามารถติดตามผู้เล่น โจมตี และค้นหาผู้เล่นเมื่อหลุดจากการมองเห็น ซึ่งช่วยให้พฤติกรรมมีความต่อเนื่องและสมจริงมากขึ้น
+
+\subsection{Goal-Based Agent}
+\hspace{1.5em}Goal-Based Agent เป็นรูปแบบที่มีเป้าหมาย เป็นตัวกำหนดการตัดสินใจ โดยระบบจะเลือกการ\\กระทำที่ช่วยให้บรรลุเป้าหมายได้ดีที่สุด
+
+ในโครงงานนี้ แนวคิดดังกล่าวถูกนำมาใช้กับตัวละครคู่แข่งในการแข่งขันทำอาหาร ซึ่งมีเป้าหมายหลักคือการชนะการแข่งขัน โดยจะเลือกการกระทำ เช่น การเก็บวัตถุดิบ หรือการเร่งทำอาหาร เพื่อเพิ่มโอกาสในการชนะ
+
+\subsection{Utility-Based Agent}
+\hspace{1.5em}Utility-Based Agent เป็นรูปแบบ ที่ใช้การคำนวณค่าความเหมาะสม (utility) ของแต่ละการกระทำ และเลือกการกระทำที่มีค่ามากที่สุด
+
+ในเกมนี้ ใช้กับตัวละครผู้ช่วย (Companion) โดยระบบจะพิจารณาสถานการณ์ เช่น ระดับพลังชีวิตของผู้เล่น หรือความอันตรายของศัตรู เพื่อเลือกการกระทำที่เหมาะสม เช่น การรักษาผู้เล่น หรือการเบี่ยงเบนความสนใจของมอนสเตอร์
+
+โดยสรุป การเลือกใช้ Behavior ที่แตกต่างกันตามบทบาทของตัวละครช่วยให้ระบบมีความยืดหยุ่น และสามารถสร้างประสบการณ์การเล่นที่หลากหลายและสมจริงมากยิ่งขึ้น
+
+\section{Pathfinding Algorithm}
+\hspace{1.5em}Pathfinding เป็นกระบวนการคำนวณเส้นทางที่เหมาะสมที่สุดจากจุดเริ่มต้นไปยังจุดหมายปลายทาง \\โดยคำนึงถึงข้อจำกัดของสภาพแวดล้อม เช่น สิ่งกีดขวาง หรือพื้นที่ที่ไม่สามารถเคลื่อนที่ผ่านได้ ซึ่งเป็นองค์ประกอบสำคัญในการพัฒนาพฤติกรรมของตัวละครในเกม [3]
+
+ในโครงงานนี้ ได้เลือกใช้ A* (A-star) Algorithm ซึ่งเป็นอัลกอริทึมที่ได้รับความนิยมในการค้นหาเส้นทาง เนื่องจากสามารถหาทางที่มีประสิทธิภาพและมีความแม่นยำสูง โดย A* จะพิจารณาค่าใช้จ่ายรวม \\(cost function) ดังนี้ [10][11]
+
+\[
+f(n) = g(n) + h(n)
+\]
+
+โดยที่
+\begin{itemize}
+  \item $g(n)$ คือ ค่าใช้จ่ายจากจุดเริ่มต้นไปยังโหนดปัจจุบัน
+  \item $h(n)$ คือ ค่า heuristic ซึ่งเป็นค่าประมาณระยะทางจากโหนดปัจจุบันไปยังจุดหมาย
+\end{itemize}
+
+การใช้ heuristic ช่วยให้ A* สามารถค้นหาเส้นทางได้รวดเร็วกว่าวิธีการแบบ brute-force และลด\\จำนวนโหนดที่ต้องพิจารณา
+
+ในการพัฒนาเกมนี้ A* ถูกนำมาใช้ร่วมกับระบบ NavMesh ของ Unity ซึ่งทำหน้าที่สร้างโครงสร้างพื้นที่ที่ตัวละครสามารถเคลื่อนที่ได้ (navigation mesh) และช่วยให้ตัวละครสามารถหลีกเลี่ยงสิ่งกีดขวางได้อย่างอัตโนมัติ
+
+กระบวนการทำงานโดยรวมคือ ตัวละครจะกำหนดตำแหน่งเป้าหมาย จากนั้นระบบ NavMesh จะใช้ A* Algorithm ในการคำนวณเส้นทางที่เหมาะสม และส่งผลลัพธ์ไปยังระบบการเคลื่อนที่ของตัวละคร
+
+การเลือกใช้ A* Algorithm ร่วมกับ NavMesh ช่วยให้การเคลื่อนที่ของมอนสเตอร์มีความสมจริง และสามารถตอบสนองต่อสภาพแวดล้อมภายในเกมได้อย่างมีประสิทธิภาพ
+
+\section{Mathematical Model for Scoring}
+\hspace{1.5em}ในการออกแบบระบบการแข่งขันทำอาหาร โครงงานนี้มุ่งเน้นการประเมินคุณภาพของอาหารในเชิง \\“ความใกล้เคียงของรสชาติ” ระหว่างอาหารที่ผู้เล่นสร้างและอาหารเป้าหมาย โดยใช้แบบจำลองทาง\\คณิตศาสตร์เพื่อให้การให้คะแนนมีความเป็นระบบและตรวจสอบได้
+
+\subsection{การแทนค่ารสชาติด้วยเวกเตอร์ (Flavor Vector)}
+\hspace{1.5em}อาหารแต่ละจานถูกแทนในรูปของเวกเตอร์ 5 มิติ ได้แก่
+
+\begin{center}
+\textbf{Flavor Vector} = (spicy, salty, sweet, sour, bitter)
+\end{center}
+
+ซึ่งสะท้อนถึงองค์ประกอบของรสชาติในอาหาร
+
+\subsection{Manhattan Distance}
+\hspace{1.5em}ในการวัดความแตกต่างของรสชาติ โครงงานนี้เลือกใช้ Manhattan Distance ซึ่งมีสมการดังนี้ [12][13]
+
+\[
+\text{Distance} = \left|P_1 - T_1\right| + \left|P_2 - T_2\right| + \left|P_3 - T_3\right| + \left|P_4 - T_4\right| + \left|P_5 - T_5\right|
+\]
+
+โดยที่ $P$ คือเวกเตอร์ของอาหารที่ผู้เล่นสร้าง และ T คือเวกเตอร์ของอาหารเป้าหมาย
+
+\vspace{1\baselineskip}
+วิธีนี้สามารถวัด “ความแตกต่างเชิงปริมาณ” ของแต่ละรสชาติได้โดยตรง และสะท้อนความผิดพลาดในแต่ละมิติของรสชาติอย่างชัดเจน
+\newpage
+\subsection{เหตุผลในการเลือก Manhattan Distance}
+\hspace{1.5em}การเลือกใช้ Manhattan Distance แทนวิธีอื่น เช่น Cosine Similarity หรือ Euclidean Distance มีเหตุผลดังนี้
+
+\begin{itemize}
+  \item \textbf{สะท้อนความแตกต่างของรสชาติแบบตรงไปตรงมา}\newline
+  \hspace{1.5em}Manhattan Distance คำนวณจากผลรวมของความต่างในแต่ละมิติ ทำให้สามารถตีความได้ง่าย เช่น รสใดที่มากหรือน้อยเกินไป
+  \item \textbf{เหมาะกับระบบที่ต้องการความแม่นยำของค่าจริง (absolute value)}\newline
+  \hspace{1.5em}ในเกมนี้ ผู้เล่นต้องทำอาหารให้ “ใกล้ค่าที่กำหนด” ไม่ใช่แค่มีสัดส่วนที่คล้ายกัน
+  \item \textbf{มีความซับซ้อนในการคำนวณต่ำ (computational efficiency)}\newline
+  \hspace{1.5em}เนื่องจากไม่มีการยกกำลังหรือหาร ทำให้เหมาะกับการใช้งานในระบบที่ต้องคำนวณแบบ real-time
+\end{itemize}
+
+\subsection{เปรียบเทียบกับ Cosine Similarity}
+\hspace{1.5em}Cosine Similarity เป็นวิธีที่ใช้วัดความคล้ายคลึงของเวกเตอร์ในเชิงทิศทาง (direction) โดยไม่สนใจขนาดของเวกเตอร์ [14]
+
+\vspace{1\baselineskip}
+อย่างไรก็ตาม วิธีนี้ไม่เหมาะกับระบบของเกม เนื่องจาก:
+
+\begin{itemize}
+  \item อาหารที่มี “สัดส่วนรสชาติคล้ายกัน” แต่มีความเข้มต่างกัน จะได้คะแนนสูง \\เช่น (5,3,2) และ (10,6,4) จะถือว่าเหมือนกัน
+  \item ไม่สามารถสะท้อนความแตกต่างเชิงปริมาณของรสชาติได้อย่างชัดเจน
+\end{itemize}
+
+\vspace{0.2\baselineskip}
+ดังนั้น Cosine Similarity จึงไม่เหมาะกับการใช้งานในกรณีที่ต้องการวัด “ความใกล้เคียงของค่าจริง”
+
+\subsection{การคำนวณคะแนน}
+\hspace{1.5em}คะแนนรสชาติถูกคำนวณจากสมการ
+
+\[
+\text{Flavor Score} = \text{MaxScore} - k \cdot \text{Distance}
+\]
+
+และนำไปรวมกับปัจจัยอื่นเพื่อให้ได้คะแนนสุดท้าย
+
+\[
+\text{Final Score} = \text{Flavor Score} + \text{Cooking Skill Score} + \text{Ingredient Bonus}
+\]
+
+\subsection{สรุป}
+\hspace{1.5em}Manhattan Distance เป็นวิธีที่เหมาะสมสำหรับระบบนี้ เนื่องจากสามารถสะท้อนความแตกต่างของรสชาติได้อย่างชัดเจน มีความซับซ้อนต่ำ และสอดคล้องกับรูปแบบ gameplay ที่ต้องการให้ผู้เล่นปรับค่า\\รสชาติให้ใกล้เคียงกับเป้าหมายมากที่สุด

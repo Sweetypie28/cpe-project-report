@@ -5,93 +5,337 @@
 \fi
 }
 
-ในบทนี้จะกล่าวถึงหลักการ และการออกแบบระบบ
+บทนี้นำเสนอรายละเอียดของโครงสร้างระบบและการออกแบบของเกมที่พัฒนาขึ้น โดยอธิบายถึงองค์ประกอบหลักของระบบ และความสัมพันธ์ระหว่างแต่ละส่วน ซึ่งถูกออกแบบโดยอ้างอิงจากหลักการและทฤษฎีที่กล่าวไว้ในบทก่อนหน้า
 
-\makeatletter
+\section{Core Gameplay System}
 
-% \renewcommand\section{\@startsection {section}{1}{\z@}%
-%                                    {13.5ex \@plus -1ex \@minus -.2ex}%
-%                                    {2.3ex \@plus.2ex}%
-%                                    {\normalfont\large\bfseries}}
+Core Gameplay System เป็นโครงสร้างหลักของเกมที่กำหนดรูปแบบการเล่นและลำดับของกิจกรรมที่ผู้เล่นต้องทำ โดยในโครงงานนี้ได้ออกแบบระบบให้มีลักษณะเป็นลูป (loop-based system) ซึ่งเชื่อมโยงระบบต่าง ๆ เข้าด้วยกันอย่างเป็นระบบ
 
-\makeatother
-%\vspace{2ex}
-% \titleformat{\section}{\normalfont\bfseries}{\thesection}{1em}{}
-% \titlespacing*{\section}{0pt}{10ex}{0pt}
+Core Gameplay Loop ของเกมสามารถสรุปได้ดังนี้:
 
-\section{Alice in Wonderland}
+ล่ามอนสเตอร์ $\rightarrow$ ได้วัตถุดิบ $\rightarrow$ ทำอาหาร $\rightarrow$ แข่งขัน $\rightarrow$ พัฒนาตัวละคร $\rightarrow$ วนซ้ำ
 
-\begin{figure}
-\begin{center}
-\includegraphics{800px-Briny_Beach.jpg}
-\end{center}
-\caption[Poem]{The Walrus and the Carpenter}
-\label{fig:walrus}
-\end{figure}
+\vspace{0.5em}
+\noindent การออกแบบลูปดังกล่าวทำให้ผู้เล่นมีเป้าหมายที่ชัดเจนในแต่ละช่วงของการเล่น และสามารถเรียนรู้ผ่านการเล่นซ้ำ (learning by repetition)
 
-\subsection{The Black Kitten}
-  One thing was certain, that the WHITE kitten had had nothing to
-do with it:---it was the black kitten's fault entirely~\cite{aiw}.  For the
-white kitten had been having its face washed by the old cat for
-the last quarter of an hour (and bearing it pretty well,
-considering); so you see that it COULDN'T have had any hand in
-the mischief.
+\subsection{เมือง (Hub System)}
 
-  The way Dinah washed her children's faces was this:  first she
-held the poor thing down by its ear with one paw, and then with
-the other paw she rubbed its face all over, the wrong way,
-beginning at the nose:  and just now, as I said, she was hard at
-work on the white kitten, which was lying quite still and trying
-to purr---no doubt feeling that it was all meant for its good.
+เมืองทำหน้าที่เป็นศูนย์กลางของเกม (safe zone) ที่ผู้เล่นสามารถเตรียมตัวก่อนออกผจญภัย โดยผู้เล่น \par
 
-  But the black kitten had been finished with earlier in the
-afternoon, and so, while Alice was sitting curled up in a corner
-of the great arm-chair, half talking to herself and half asleep,
-the kitten had been having a grand game of romps with the ball of
-worsted Alice had been trying to wind up, and had been rolling it
-up and down till it had all come undone again; and there it was,
-spread over the hearth-rug, all knots and tangles, with the
-kitten running after its own tail in the middle.
+\noindent สามารถ:
 
-\subsection{The Reproach}
+\begin{itemize}
+\item พูดคุยกับตัวละคร (NPC)
+\item รับโจทย์การแข่งขัน
+\item จัดการวัตถุดิบและเมนูอาหาร
+\item ทำอาหารเพื่อเตรียมบัฟ
+\end{itemize}
+ระบบนี้ช่วยให้ผู้เล่นสามารถวางแผนและเลือกแนวทางการเล่นได้
 
-  `Oh, you wicked little thing!' cried Alice, catching up the
-kitten, and giving it a little kiss to make it understand that it
-was in disgrace.  `Really, Dinah ought to have taught you better
-manners!  You OUGHT, Dinah, you know you ought!' she added,
-looking reproachfully at the old cat, and speaking in as cross a
-voice as she could manage---and then she scrambled back into the
-arm-chair, taking the kitten and the worsted with her, and began
-winding up the ball again.  But she didn't get on very fast, as
-she was talking all the time, sometimes to the kitten, and
-sometimes to herself.  Kitty sat very demurely on her knee,
-pretending to watch the progress of the winding, and now and then
-putting out one paw and gently touching the ball, as if it would
-be glad to help, if it might.
 
-  `Do you know what to-morrow is, Kitty?' Alice began.  `You'd
-have guessed if you'd been up in the window with me---only Dinah
-was making you tidy, so you couldn't.  I was watching the boys
-getting in stick for the bonfire---and it wants plenty of
-sticks, Kitty!  Only it got so cold, and it snowed so, they had
-to leave off.  Never mind, Kitty, we'll go and see the bonfire
-to-morrow.'  Here Alice wound two or three turns of the worsted
-round the kitten's neck, just to see how it would look:  this led
-to a scramble, in which the ball rolled down upon the floor, and
-yards and yards of it got unwound again.
+\subsection{การออกสำรวจและต่อสู้ (Exploration \& Combat)}
 
-  `Do you know, I was so angry, Kitty,' Alice went on as soon as
-they were comfortably settled again, `when I saw all the mischief
-you had been doing, I was very nearly opening the window, and
-putting you out into the snow!  And you'd have deserved it, you
-little mischievous darling!  What have you got to say for
-yourself?  Now don't interrupt me!' she went on, holding up one
-finger.  `I'm going to tell you all your faults.  Number one:
-you squeaked twice while Dinah was washing your face this
-morning.  Now you can't deny it, Kitty:  I heard you!  What that
-you say?' (pretending that the kitten was speaking.)  `Her paw
-went into your eye?  Well, that's YOUR fault, for keeping your
-eyes open---if you'd shut them tight up, it wouldn't have
-happened.  Now don't make any more excuses, but listen!  Number
-two:  you pulled Snowdrop away by the tail just as I had put down
-the saucer of milk before her!  What, you were thirsty, were you?
+ผู้เล่นจะออกไปยังพื้นที่ต่าง ๆ เช่น ป่า หรือดันเจี้ยน เพื่อทำการต่อสู้กับมอนสเตอร์และเก็บวัตถุดิบ โดยมอนสเตอร์แต่ละประเภทมีพฤติกรรมและรูปแบบการโจมตีที่แตกต่างกัน
+\par\vspace{1em}\noindent
+การออกแบบส่วนนี้ช่วยสร้างความท้าทายและเพิ่มความหลากหลายของ gameplay
+
+
+\subsection{ระบบการทำอาหาร (Cooking System)}
+
+หลังจากได้วัตถุดิบ ผู้เล่นสามารถนำมาปรุงอาหาร โดยระบบการทำอาหารถูกออกแบบให้เข้าใจง่าย และมีทั้งรูปแบบอัตโนมัติและมินิเกม 
+\par\vspace{1em}\noindent
+อาหารที่ได้จะส่งผลต่อความสามารถของตัวละคร เช่น การฟื้นฟูพลัง หรือการปลดล็อกสกิล
+
+\subsection{ระบบการแข่งขัน (Competition System)}
+
+ผู้เล่นสามารถนำอาหารที่ปรุงไปแข่งขัน โดยระบบจะมีโจทย์กำหนด เช่น วัตถุดิบและรสชาติเป้าหมาย
+\par\vspace{1em}\noindent
+ผลการแข่งขันจะถูกคำนวณจากระบบคะแนน ซึ่งรวมทั้งความถูกต้องของรสชาติและทักษะของผู้เล่น
+
+\subsection{ระบบความก้าวหน้า (Progression System)}
+
+เมื่อผู้เล่นชนะการแข่งขัน จะสามารถปลดล็อกพื้นที่ใหม่ มอนสเตอร์ใหม่ และเนื้อเรื่องเพิ่มเติม
+\par\vspace{1em}\noindent
+ระบบนี้ช่วยสร้างแรงจูงใจให้ผู้เล่นเล่นซ้ำและพัฒนาทักษะของตนเอง
+\par\vspace{1em}\noindent
+โดยสรุป Core Gameplay System ของเกมนี้เป็นการเชื่อมโยงระบบต่าง ๆ เข้าด้วยกันอย่างเป็นลำดับ \par
+\noindent ทำให้เกิดการเล่นที่ต่อเนื่อง มีเป้าหมายชัดเจน และสนับสนุนการเรียนรู้ผ่านประสบการณ์การเล่น
+
+\section{Food System}
+
+ระบบอาหาร (Food System) เป็นระบบหลักของเกมที่ทำหน้าที่เชื่อมโยงการเล่นในหลายมิติทั้งด้านการต่อสู้ การพัฒนาตัวละคร และการดำเนินเนื้อเรื่อง โดยอาหารในเกมไม่ได้มีบทบาทเพียงแค่เป็นไอเทมสำหรับฟื้นฟูพลัง แต่ยังเป็นกลไกสำคัญในการกำหนดรูปแบบการเล่นของผู้เล่น
+
+\subsection{บทบาทของอาหารในเกม}
+อาหารในเกมนี้มีบทบาทหลัก 3 ด้าน ได้แก่
+\begin{itemize}
+\item \textbf{ไอเทม (Item)} ใช้สำหรับฟื้นฟูพลังชีวิต หรือเพิ่มสถานะ (buff) ให้กับตัวละคร
+\item \textbf{สกิล (Skill Unlock Mechanism)} อาหารบางประเภทสามารถปลดล็อกสกิลใหม่ซึ่งส่งผลต่อรูปแบบการต่อสู้ของผู้เล่น
+\item \textbf{ระบบพัฒนา (Progression System)} การค้นพบและปรุงอาหารใหม่ช่วยให้ผู้เล่นสามารถพัฒนาตัวละคร และปลดล็อกเนื้อหาเพิ่มเติม
+\end{itemize}
+
+\subsection{ประเภทของอาหาร}
+ระบบอาหารแบ่งออกเป็น 2 ประเภทหลัก ได้แก่
+\begin{enumerate}
+\item \textbf{อาหารทั่วไป (Consume Food)} ใช้สำหรับการบริโภคเพื่อเพิ่มพลังหรือสถานะ โดยมีขั้นตอนการทำที่เรียบง่าย และสามารถทำซ้ำได้
+\item \textbf{อาหารแข่งขัน (Competition Food)} ใช้ในระบบการแข่งขัน โดยมีโจทย์กำหนด เช่น วัตถุดิบและรสชาติเป้าหมาย ซึ่งต้องอาศัยทั้งการวางแผนและทักษะของผู้เล่น
+\end{enumerate}
+
+\subsection{กระบวนการทำอาหาร (Cooking Process)}
+
+กระบวนการทำอาหารประกอบด้วย 2 ขั้นตอนหลัก
+
+\begin{enumerate}
+\item \textbf{การเลือกเมนู}  
+ผู้เล่นสามารถเลือกเมนูจากรายการที่ปลดล็อกแล้ว หากมีวัตถุดิบครบสามารถทำได้ทันที
+
+\item \textbf{การปรุงอาหาร}  
+มี 2 รูปแบบ ได้แก่
+\begin{itemize}
+\item แบบอัตโนมัติ (Auto) สำหรับเมนูที่ผู้เล่นมีความชำนาญ
+\item แบบมินิเกม (Mini Interaction) เช่น การกดจังหวะ การควบคุมระดับไฟ หรือการจัดลำดับขั้นตอน
+\end{itemize}
+\end{enumerate}
+
+คุณภาพของอาหารจะขึ้นอยู่กับความแม่นยำของผู้เล่นในขั้นตอนนี้
+
+\subsection{Food-to-Skill Transformation}
+
+อาหารบางประเภทสามารถเปลี่ยนเป็นสกิลที่ใช้ในการต่อสู้ได้ โดยเมื่อผู้เล่นใช้สกิลจากอาหาร จะเกิดการ
+\par\vspace{0.5em}\noindent
+เปลี่ยนแปลงรูปแบบการต่อสู้ (Combat Mode) เช่น
+
+\begin{itemize}
+\item การโจมตีระยะใกล้ (Melee)
+\item การโจมตีระยะไกล (Ranged)
+\item การโจมตีที่มีสถานะพิเศษ (Status Effect)
+\end{itemize}
+
+ระบบนี้ช่วยเพิ่มความหลากหลายของ gameplay และเปิดโอกาสให้ผู้เล่นสามารถเลือกแนวทางการเล่น (playstyle) ได้
+
+\subsection{ระบบความชำนาญ (Food Mastery System)}
+
+ผู้เล่นสามารถพัฒนาความชำนาญของเมนูอาหารได้จากการทำซ้ำ ซึ่งจะส่งผลให้:
+
+\begin{itemize}
+\item สามารถทำอาหารได้รวดเร็วขึ้น
+\item เพิ่มคุณภาพของอาหาร
+\item ปลดล็อกตัวเลือกการทำอาหารแบบอัตโนมัติ
+\end{itemize}
+
+ระบบนี้ช่วยกระตุ้นให้ผู้เล่นมี “เมนูประจำตัว” และสร้างเอกลักษณ์ในการเล่น
+
+\subsection{การเชื่อมโยงกับระบบอื่น}
+
+Food System มีบทบาทสำคัญในการเชื่อมโยงกับระบบอื่นในเกม ได้แก่
+
+\begin{itemize}
+\item เชื่อมกับ Combat System ผ่านการปลดล็อกสกิล
+\item เชื่อมกับ Competition System ผ่านการใช้เมนูในการแข่งขัน
+\item เชื่อมกับ Progression System ผ่านการปลดล็อกเนื้อหาใหม่
+\end{itemize}
+\par\vspace{0.5em}\noindent
+โดยสรุป ระบบอาหารเป็นแกนหลักของเกมที่เชื่อมโยงระบบต่าง ๆ เข้าด้วยกัน และเป็นปัจจัยสำคัญที่กำหนดทั้งรูปแบบการเล่นและความก้าวหน้าของผู้เล่น
+
+\section{Combat System}
+
+ระบบการต่อสู้ (Combat System) เป็นองค์ประกอบสำคัญของเกมที่ทำหน้าที่สร้างความท้าทายและความหลากหลายของการเล่น โดยในโครงงานนี้ ระบบการต่อสู้ถูกออกแบบให้เชื่อมโยงโดยตรงกับระบบอาหาร 
+\par\vspace{0.5em}\noindent
+(Food System) เพื่อให้เกิดความสัมพันธ์ระหว่างการเตรียมตัวและการต่อสู้
+
+\subsection{รูปแบบการต่อสู้}
+
+การต่อสู้ในเกมเป็นแบบเรียลไทม์ (real-time combat) โดยผู้เล่นสามารถเคลื่อนที่ หลบหลีก และโจมตีได้อย่างอิสระ ซึ่งช่วยให้เกิดความลื่นไหลของการเล่น และต้องอาศัยทักษะในการควบคุม
+\par\vspace{0.5em}\noindent
+ผู้เล่นต้องวิเคราะห์พฤติกรรมของมอนสเตอร์และเลือกจังหวะในการโจมตีหรือหลบหลีกอย่างเหมาะสม
+
+\subsection{Combat Mode System}
+
+ระบบ Combat Mode เป็นกลไกสำคัญที่เชื่อมระหว่างอาหารและการต่อสู้ โดยเมื่อผู้เล่นใช้สกิลจากอาหาร รูปแบบการต่อสู้จะเปลี่ยนไปตามประเภทของอาหารนั้น
+
+ตัวอย่าง Combat Mode ได้แก่:
+
+\begin{itemize}
+\item \textbf{Melee Mode}  
+การโจมตีระยะใกล้ มีความเร็วสูงและความเสียหายสมดุล
+
+\item \textbf{Ranged Mode}  
+การโจมตีระยะไกล เช่น ยิงลูกศรหรือพลังงาน แต่มีความเร็วในการโจมตีต่ำกว่า
+
+\item \textbf{Special Mode}  
+การโจมตีที่มีผลพิเศษ เช่น ทำให้ศัตรูติดสถานะ (stun, slow)
+\end{itemize}
+
+ระบบนี้ช่วยให้ผู้เล่นสามารถปรับเปลี่ยนรูปแบบการเล่น (playstyle) ได้ตามสถานการณ์
+
+\subsection{Elemental Weakness System}
+
+มอนสเตอร์แต่ละประเภทมีจุดอ่อน (elemental weakness) ที่แตกต่างกัน เช่น
+
+\begin{itemize}
+\item มอนสเตอร์ธาตุไฟ แพ้การโจมตีธาตุน้ำ
+\item มอนสเตอร์ประเภทพืช แพ้ธาตุไฟ
+\end{itemize}
+
+ผู้เล่นจึงต้องเลือกสกิลจากอาหารให้เหมาะสมกับศัตรูในแต่ละด่าน ซึ่งเพิ่มมิติของการวางแผน
+
+\subsection{Enemy Behavior Interaction}
+
+พฤติกรรมของมอนสเตอร์ถูกออกแบบให้มีความหลากหลาย เช่น
+
+\begin{itemize}
+\item การโจมตีระยะใกล้
+\item การยิงโปรเจกไทล์
+\item การสร้างพื้นที่อันตราย (hazard zone)
+\end{itemize}
+
+ผู้เล่นต้องเรียนรู้รูปแบบการเคลื่อนไหวและการโจมตีของมอนสเตอร์เพื่อปรับกลยุทธ์ในการต่อสู้
+
+\subsection{Combat Strategy Loop}
+
+ระบบการต่อสู้เชื่อมโยงกับระบบอาหารในรูปแบบลูป ดังนี้:
+
+ล่ามอนสเตอร์ $\rightarrow$ ได้วัตถุดิบ $\rightarrow$ ทำอาหาร $\rightarrow$ ปลดล็อกสกิล $\rightarrow$ เลือกสกิล $\rightarrow$ ต่อสู้
+\par\vspace{0.5em}\noindent
+ลูปนี้ทำให้การต่อสู้ไม่ใช่เพียงการใช้ทักษะ แต่ยังเกี่ยวข้องกับการวางแผนล่วงหน้าและการเลือกใช้ทรัพยากรอย่างเหมาะสม
+\par\vspace{0.5em}\noindent
+โดยสรุป ระบบการต่อสู้ในเกมนี้ถูกออกแบบให้มีความยืดหยุ่นและเชื่อมโยงกับระบบอาหารอย่างใกล้ชิด ทำให้เกิดความหลากหลายของรูปแบบการเล่น และเพิ่มความลึกของ gameplay
+
+\section{Competition System}
+
+ระบบการแข่งขันทำอาหาร (Competition System) เป็นกลไกสำคัญที่ใช้ในการวัดความสามารถของผู้เล่น และเป็นเงื่อนไขในการปลดล็อกเนื้อหาใหม่ภายในเกม โดยระบบนี้ผสมผสานทั้งการวางแผนล่วงหน้า (strategic planning) และทักษะในการเล่น (skill-based gameplay)
+
+\subsection{โครงสร้างของการแข่งขัน}
+
+การแข่งขันแต่ละครั้งจะมี “โจทย์” (Judge Requirement) ที่กำหนดโดยระบบ ซึ่งประกอบด้วย:
+
+\begin{itemize}
+\item เมนูอาหารที่ต้องทำ
+\item วัตถุดิบหลัก (Required Ingredients)
+\item รสชาติเป้าหมาย (Target Flavor)
+\end{itemize}
+
+ผู้เล่นจะต้องเตรียมวัตถุดิบจากการล่ามอนสเตอร์ และนำมาปรุงอาหารให้ตรงกับเงื่อนไขที่กำหนด
+
+\subsection{ระบบการให้คะแนน (Scoring System)}
+
+คะแนนของการแข่งขันถูกคำนวณจากหลายปัจจัย ได้แก่
+
+\begin{itemize}
+\item \textbf{Flavor Score}  
+คำนวณจากความใกล้เคียงของรสชาติ โดยใช้ Manhattan Distance
+
+\item \textbf{Cooking Skill Score}  
+ได้จากความแม่นยำในการทำมินิเกม เช่น การกดจังหวะ และลำดับขั้นตอน
+
+\item \textbf{Ingredient Bonus}  
+ได้จากการใช้วัตถุดิบที่มีความหายาก
+\end{itemize}
+
+คะแนนรวมสามารถเขียนได้เป็น:
+\par
+Final Score = Flavor Score + Cooking Skill Score + Ingredient Bonus
+
+\subsection{มินิเกมทำอาหาร (Cooking Mini-game)}
+
+ในระหว่างการปรุงอาหาร ผู้เล่นจะต้องทำมินิเกม เช่น
+\begin{itemize}
+\item กดปุ่มตามจังหวะ
+\item ควบคุมระดับไฟ
+\item จัดลำดับขั้นตอน
+\end{itemize}
+ความแม่นยำของผู้เล่นจะส่งผลต่อคุณภาพของอาหารและคะแนนที่ได้รับ
+
+\subsection{ระบบตัดสินกรณีคะแนนเท่ากัน (Tie-Breaking)}
+
+ในกรณีที่ผู้เล่นและคู่แข่งมีคะแนนรวมเท่ากัน ระบบจะใช้เกณฑ์เพิ่มเติมในการตัดสิน ได้แก่:
+
+\begin{enumerate}
+\item  Cooking Skill Score (ผู้ที่มีทักษะสูงกว่าจะชนะ)
+\item ความแม่นยำของรสชาติ (Flavor Precision)
+\item ความหายากของวัตถุดิบ (Ingredient Rarity)
+\item เวลาในการทำอาหาร (Time Efficiency)
+\end{enumerate}
+หากยังไม่สามารถตัดสินได้ ระบบจะสุ่มผู้ชนะเพื่อป้องกันการเกิดผลลัพธ์ซ้ำ
+
+\subsection{บทบาทของระบบการแข่งขันในเกม}
+
+ระบบการแข่งขันทำหน้าที่เป็น ``Progression Gate'' ที่ผู้เล่นต้องผ่านเพื่อปลดล็อกพื้นที่ใหม่ มอนสเตอร์ใหม่ และเนื้อเรื่องเพิ่มเติม
+
+\par\vspace{0.5em}\noindent
+นอกจากนี้ ระบบยังช่วยเชื่อมโยงการเล่นในหลายมิติ ได้แก่
+
+\begin{itemize}
+\item การล่ามอนสเตอร์เพื่อเตรียมวัตถุดิบ
+\item การวางแผนเลือกเมนู
+\item การใช้ทักษะในการทำมินิเกม
+\end{itemize}
+\par\vspace{0.5em}\noindent
+โดยสรุป ระบบการแข่งขันทำหน้าที่เป็นจุดทดสอบความสามารถของผู้เล่น และเป็นกลไกสำคัญในการผลักดันความก้าวหน้าในเกม
+
+\section{System Integration}
+
+ระบบต่าง ๆ ภายในเกมถูกออกแบบให้ทำงานร่วมกันอย่างเป็นระบบ (integrated system) โดยมีการเชื่อมโยงข้อมูลและการทำงานระหว่างแต่ละระบบ เพื่อสร้างประสบการณ์การเล่นที่ต่อเนื่องและมีความหมาย
+
+\subsection{ภาพรวมการเชื่อมโยงระบบ}
+
+ระบบหลักของเกมประกอบด้วย:
+\begin{itemize}
+    \item Combat System
+    \item Food System
+    \item Competition System
+    \item Behavior System
+    \item Progression System
+\end{itemize}
+
+ระบบเหล่านี้ไม่ได้ทำงานแยกกัน แต่ถูกเชื่อมโยงผ่าน Core Gameplay Loop ทำให้การกระทำในแต่ละระบบส่งผลต่อระบบอื่นโดยตรง
+
+\subsection{การไหลของระบบ (System Flow)}
+
+การทำงานของระบบสามารถอธิบายเป็นลำดับได้ดังนี้:
+\par\vspace{0.5em}\noindent
+ล่ามอนสเตอร์ $\rightarrow$ ได้วัตถุดิบ $\rightarrow$ ทำอาหาร $\rightarrow$ ปลดล็อกสกิล $\rightarrow$ เลือกสกิล $\rightarrow$ ต่อสู้ $\rightarrow$ แข่งขัน$\rightarrow$ ปลดล็อกเนื้อหาใหม่
+
+ในลำดับดังกล่าว:
+\begin{itemize}
+    \item Combat System เป็นแหล่งของวัตถุดิบ
+    \item Food System ใช้ในการแปลงวัตถุดิบเป็นความสามารถ
+    \item Competition System ใช้ประเมินผลและควบคุม progression
+\end{itemize}
+
+\subsection{การเชื่อมโยงข้อมูลระหว่างระบบ}
+
+ข้อมูลสำคัญที่ถูกส่งต่อระหว่างระบบ ได้แก่:
+\begin{itemize}
+    \item วัตถุดิบ (Ingredients) \\
+    ได้จาก Combat และถูกใช้ใน Food System
+    \item อาหาร (Food Data) \\
+    ถูกใช้ทั้งใน Combat (สกิล) และ Competition (คะแนน)
+    \item สกิล (Skill Data) \\
+    ส่งผลต่อรูปแบบการต่อสู้ของผู้เล่น
+    \item คะแนน (Score Data) \\
+    ใช้ในการตัดสินผลการแข่งขันและ progression
+\end{itemize}
+
+\subsection{ความสัมพันธ์ระหว่างระบบ}
+
+ระบบภายในเกมมีความสัมพันธ์แบบ dependency ซึ่งแต่ละระบบส่งผลต่อกัน เช่น:
+\begin{itemize}
+    \item Combat $\rightarrow$ ส่งผลต่อ Food (วัตถุดิบ)
+    \item Food $\rightarrow$ ส่งผลต่อ Combat (สกิล)
+    \item Competition $\rightarrow$ ส่งผลต่อ Progression
+    \item Behavior System $\rightarrow$ ส่งผลต่อความยากและประสบการณ์การเล่น
+\end{itemize}
+
+ความสัมพันธ์นี้ทำให้ทุกระบบมีบทบาทสำคัญ และไม่มีระบบใดที่ทำงานอย่างโดดเดี่ยว
+
+\subsection{ประโยชน์ของการออกแบบแบบ Integrated System}
+
+การออกแบบระบบให้เชื่อมโยงกันช่วยให้:
+\begin{itemize}
+    \item เกมมีความลื่นไหล (flow) และต่อเนื่อง
+    \item ผู้เล่นเข้าใจความสัมพันธ์ของระบบได้ง่าย
+    \item เพิ่มความลึกของ gameplay
+    \item สนับสนุนการเล่นซ้ำ
+\end{itemize}
+
+โดยสรุป การออกแบบ System Integration ในโครงงานนี้ช่วยให้ระบบต่าง ๆ ทำงานร่วมกันอย่างมีประสิทธิภาพ และสร้างประสบการณ์การเล่นที่เป็นหนึ่งเดียว

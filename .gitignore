@@ -15,6 +15,7 @@
 *.out
 *.toc
 *.xdv
+.history/
 *.synctex.gz
 *.synctex(busy)
 __latexindent*
